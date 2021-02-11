@@ -1,5 +1,3 @@
-package Practicum2A;
-
 public class Zwembad {
     private double breedte;
     private double lengte;
