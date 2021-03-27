@@ -1,0 +1,100 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class BestandLezen {
+    public static void main(String[] arg) throws IOException {
+        try {
+            Scanner filenamequestion = new Scanner(System.in);
+            System.out.println("enter the name of the file");
+            String filename = filenamequestion.nextLine();
+
+            Scanner locationnamefile = new Scanner(System.in);
+            System.out.println("enter the file path:");
+            String locationname = locationnamefile.nextLine();
+
+            Scanner dollartoeuroquestion = new Scanner(System.in);
+            System.out.println("enter the stockmarket rate of 1 usd to eurocents");
+            String dollartoeuro = dollartoeuroquestion.nextLine();
+            
+            Scanner newfilenamequestion = new Scanner(System.in);
+            System.out.println("Enter the new file name:");
+            String newfilename = newfilenamequestion.nextLine();
+            
+            Scanner newlocationnamefile = new Scanner(System.in);
+            System.out.println("Enter the new location for the new file");
+            String newlocationname = newlocationnamefile.nextLine();
+
+            String pad = locationnamefile + filenamequestion;
+            Path path = Path.of(pad);
+            Scanner scan = new Scanner(path);
+            BufferedReader br = Files.newBufferedReader(path);
+
+            String newpad = newlocationnamefile + newfilenamequestion;
+            path newpath = Path.of(newpad);
+
+            while (scan.hasNextLine()) {
+                String regel = scan.nextLine();
+                String delimiter = ":";
+                String[] splitStringArray = regel.split(delimiter);
+                for(String s : splitStringArray){
+                    input.add(s);
+
+                }
+                br.close();
+            }
+            
+            String input = "";
+            String[] parts = input.split( ":" );
+            if ( parts.length != 2 ) { throw new IllegalStateException( "Expected 2 parts per line." ); }
+            String productDescription = parts[ 0 ].strip() ;
+            BigDecimal usd = new BigDecimal( parts[ 1 ].strip() );
+            BigDecimal rateUsdToEur = new BigDecimal(dollartoeuro);
+            BigDecimal eur = usd.multiply( rateUsdToEur ).setScale( 2 , RoundingMode.HALF_EVEN ); // Round to the cent, using "Banker’s Rounding".
+            
+            File myObj = new File(newpath);
+            FileWriter myWriter = new FileWriter("");
+            myWriter.write( "Product: " + productDescription + " USD: " + usd + " EUR: " + eur );
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+            
+            
+
+
+        } catch(FileNotFoundException e) {
+            System.out.println("Het bestemmingsbestand die u heeft ingevoerd bestaat niet, of is incorrect ingevoerd.\nProbeer het opnieuw.");
+        } catch(IOException e) {
+            System.out.println("Uw invoer was incorrect, probeer het opnieuw.");
+        } catch(RuntimeException e) {
+            System.out.println("een runtime error heeft zich plaats gevonden : " + e);
+        }
+    }
+}
+
+
+
+
+
+            
+            
+            // i tried this but it didn't work .split(",") is shown red in intellij.
+            //ArrayList aList = new ArrayList(Arrays.asList(product_list.split(",")));
+            //for(int i=0;i<aList.size();i++)
+            //{
+            //    System.out.println(" -->"+aList.get(i));
+            //}
+            
+            
+            
+            
+            
+            //ArrayList product_list = new ArrayList();
+            
+            
+            
+            //                    System.out.println(product_list);
